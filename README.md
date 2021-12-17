@@ -1,1 +1,1 @@
-A test code for a web store. The link: raidu-store.herokuapp.com
+A test code for a web store. The webapp link: raidu-store.herokuapp.com
