@@ -1,0 +1,31 @@
+{% load static %}
+<div id="blog-section">
+    <div class="title-image" style="background-image: url({% static 'images/blog-cover.png' %});">
+        <div class="heading">
+            <h1>Raidu Moda Blog</h1>
+        </div>
+    </div>
+    <div class="blog-title-txt">
+        <p>You’re invited to the world of Riadu visions and reflections. An artist is not only concerned about selling, but to make sure that it’s creations send a message reflecting our inner truths. </p>
+    </div>
+    <div style="text-align: center;">
+        {% for blog in blogs %} {% if blog.publish == True %}
+        <div class="posts">
+            <img class="blog-img" src="{{ blog.image.url}}"><br>
+
+            <span>{{ blog.date_added|date:"d" }}</span><span> </span><span>{{ blog.date_added|date:"M" }}</span><br>
+            <span>Posted by:</span> <span>{{blog.author}}</span><br>
+            <h4>
+                <a href="{% url 'view_post' blog.id %}">
+                    <h2 style="font-size: 20px">{{blog.title}}</h2>
+                </a>
+            </h4>
+            <p>{{blog.text|slice:":40"}}...</p>
+
+        </div>
+
+        {% endif %} {% endfor %}
+    </div>
+</div>
+
+<hr style="margin-top: 3%;">

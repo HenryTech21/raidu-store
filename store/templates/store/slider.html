@@ -1,0 +1,47 @@
+{% load static %}
+<div id="slider">
+    <div class="slider">
+        <div class="mySlider fade " style="display: block;">
+            <div class="txt">
+                <div class="slide-desc">
+                    <h1>Exclusive</h1>
+                    <h4>Men's</h4>
+                    <h2>Collection</h2>
+                    <p>New high-end shirts, pants & Accessories</p>
+                    <a href="#store" style="margin-top: 20px;">SHOP COLLECTION</a>
+                </div>
+            </div>
+            <img class="slide-image" src="{% static 'images/slide1.png' %}" alt="Slide1" style="width: 100%; height: auto;">
+        </div>
+        <div class="mySlider fade">
+            <div class="txt">
+                <div class="slide-desc">
+                    <h1>Raidu</h1>
+                    <h4>Men's</h4>
+                    <h2>Clothing</h2>
+                    <p>High-quality menswear</p>
+                    <a href="#store" style="margin-top: 20px;">SHOP COLLECTION</a>
+                </div>
+            </div>
+            <img class="slide-image" src="{% static 'images/slide2.png' %}" alt="Slide1" style="width: 100%; height: auto;">
+        </div>
+        <div class="mySlider fade">
+            <div class="txt">
+                <div class="slide-desc">
+                    <h1>Raidu</h1>
+                    <h4>women's</h4>
+                    <h2>Collection</h2>
+                    <p>New evening dresses, jewellery & Accessories</p>
+                    <a href="#store" style="margin-top: 20px;">SHOP COLLECTION</a>
+                </div>
+            </div>
+            <img class="slide-image" src="{% static 'images/slide3.png' %}" alt="Slide1" style="width: 100%; height: auto;">
+        </div>
+
+        <div class="dotsbox" style="text-align: center;">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </div>
+</div>

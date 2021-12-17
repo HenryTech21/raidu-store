@@ -1,0 +1,44 @@
+{% extends 'store/main.html' %}{% load static %}{% block content %}
+<hr style="margin-top: 1%;">
+<div id="product_view">
+    <div>
+        <div class="product">
+            <div class="image">
+                <div class="product_slide">
+                    <div class="slideshow-container">
+                        {% for simage in product.album_set.all %} {% if simage.image%}
+                        <div class="mySlides fade">
+                            <a href="{{simage.image.url}}" target="blank"><img src="{{simage.image.url}}" style="width:100%; height: auto"></a>
+                        </div>
+                        {% endif %} {% endfor %}
+                        <div style="text-align:center ">
+                            <span class="dot " onclick="currentSlide(1) "></span>
+                            <span class="dot " onclick="currentSlide(2) "></span>
+                            <span class="dot " onclick="currentSlide(3) "></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+
+                <div class="product_details">
+
+
+                    <h1>{{product.name}}</h1>
+                    <p class="price">Size: {{product.size}}</p>
+                    <p class="price">{{product.description}}</p>
+
+                    <p class="price">€{{product.price|floatformat:2}}</p>
+                    <p><button data-product={{product.id}} data-action="add" class="update-cart">Add to Cart</button></p>
+                    <p style="text-align: center; width: 70%;"><i class=" fa fa-cc-paypal " style="font-size:24px "></i>
+                        <i class="fa fa-cc-mastercard " style="font-size:24px "></i>
+                        <i class="fa fa-cc-visa" style="font-size:24px"></i> </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <hr style="margin-top: 2%;">
+</div>
+{% endblock content %}

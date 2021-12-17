@@ -1,0 +1,143 @@
+{% extends 'store/main.html' %}{% load static %}{% block content %}
+<hr>
+<div class="container">
+    <div id="checkout">
+        <form id="form" style="width: 100%; display: flex;">
+            {% csrf_token %}
+            <div class="shipping-information">
+                <input placeholder="name" name="name" type="text" required>
+                <input placeholder="email" name="email" type="email" required>
+
+                <hr>
+
+                <h4>Shipping Information</h4>
+
+                <input placeholder="Address.." type="text" name="address">
+                <input placeholder="City.." type="text" name="city"><br>
+                <input placeholder="State.." type="text" name="state">
+                <input placeholder="Zip code.." type="text" name="zip"><br><br>
+                <input id="form-button" class="continue-btn" type="submit" value="Continue"><br>
+
+            </div>
+        </form>
+
+        <br>
+        <div class="order-total ">
+            <a id="back-to-cart" href="{% url 'cart' %} ">&#x2190; Back to cart</a>{% for item in items %}
+            <p>
+                <span><img style="width: 50px; height: auto; " src="{{item.product.imageURL}} " alt="product "></span>
+                <span style="margin-left: 3%; ">{{item.product.name}}</span>
+            </p>
+            {% endfor %}
+
+            <hr style="margin-top: 20px; ">
+            <p><strong>
+                <span>Number of Items:</span>
+                <span>{{order.get_cart_items}}</span>
+            </strong></p>
+            <p><strong>
+                <span>Total price:</span>
+                <span>€ {{order.get_cart_total|floatformat:2}}</span>
+            </strong></p>
+        </div>
+    </div>
+    <div id="paypal-info">
+        <small>Paypal Options</small>
+        <div id="paypal-button-container"></div>
+    </div>
+</div>
+
+<hr>
+<script src="https://www.paypal.com/sdk/js?c*********************************************sOMkWZuvbn&currency=EUR"></script>
+<script>
+    var total = '{{order.get_cart_total|floatformat:2}}'
+
+    paypal.Buttons({
+
+        style: {
+            color: 'blue',
+            shape: 'rect',
+        },
+
+
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: parseFloat(total).toFixed(2)
+                    }
+                }]
+            });
+        },
+
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                submitFormData();
+
+            });
+        }
+
+    }).render('#paypal-button-container');
+</script>
+
+
+<script type="text/javascript ">
+    var form = document.getElementById('form')
+    var total = '{{order.get_cart_total|floatformat:2}}'
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault()
+        document.getElementById('form-button').style.display = 'none';
+        document.getElementById('paypal-info').style.display = 'inline-block';
+    })
+
+
+    function submitFormData() {
+
+        var userFormData = {
+            'name': null,
+            'email': null,
+            'total': total
+        }
+
+        var shippingInfo = {
+            'address': null,
+            'city': null,
+            'state': null,
+            'zip': null
+
+        }
+
+        userFormData.name = form.name.value
+        userFormData.email = form.email.value
+
+        shippingInfo.address = form.address.value
+        shippingInfo.city = form.city.value
+        shippingInfo.state = form.state.value
+        shippingInfo.zip = form.zip.value
+
+        var url = '/process_order/'
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({
+                'form': userFormData,
+                'shipping': shippingInfo
+            })
+        })
+
+        .then((response) => response.json())
+            .then((data) => {
+
+                cart = {}
+                document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+                window.location.href = "{% url 'order_submitted' %}"
+            })
+    }
+</script>
+
+{% endblock content %}

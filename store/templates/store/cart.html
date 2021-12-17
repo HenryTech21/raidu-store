@@ -1,0 +1,45 @@
+{% extends 'store/main.html' %}{% load static %}{% block content %}
+<div class="container">
+    <div id="cart">
+        <div class="products">
+            {% for item in items %}
+            <div class="product">
+                <img src="{{item.product.imageURL}}" alt="product">
+                <div class="product-info">
+                    <h4 class="product-name">{{item.product.name}}</h4>
+                    <h4 class="product-price">Price: €{{item.product.price}}</h4>
+                    <p style="display: inline-block; line-height: 1px;" class="product-quantity">Qty: {{item.quantity}}
+                        <div class="add-remove-item">
+                            <img data-product="{{item.product.id}}" data-action="add" class="update-cart" src="{% static 'images/arrow-up.png' %}">
+                            <img data-product="{{item.product.id}}" data-action="remove" class="update-cart" src="{% static 'images/arrow-down.png' %}">
+                        </div>
+                    </p>
+                    <h4 class="product-price">TOTAL: €{{item.get_total|floatformat:2}}</h4>
+                    <p class="product-remove">
+                        <i class="fa fa-trash "></i>
+                        <span data-product="{{item.product.id}}" data-action="delete" class="update-cart">Remove</span>
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        <div class="cart-total ">
+            <p>
+                <span>Total price:</span>
+                <span>€{{order.get_cart_total|floatformat:2}}</span>
+            </p>
+            <p>
+                <span>Number of Items</span>
+                <span>{{order.get_cart_items}}</span>
+            </p>
+            <a href="{% url 'checkout' %} ">Proceed to Checkout</a>
+            <p style="text-align: center; justify-content:center !important;"><i class=" fa fa-cc-paypal " style="font-size:24px "></i>
+                <i class="fa fa-cc-mastercard " style="font-size:24px "></i>
+                <i class="fa fa-cc-visa" style="font-size:24px"></i> </p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

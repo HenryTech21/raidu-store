@@ -1,0 +1,16 @@
+{% extends 'store/main.html' %} {% load static %} {% block content %}
+<hr>
+<div class="container">
+
+    <div id="view_post">
+
+        <img src="{{ blog.image.url}}">
+
+        <h2>{{blog.title}}</h2>
+
+        <p>{{blog.text|linebreaks}}</p>
+
+    </div>
+
+</div>
+<hr> {% include 'store/footer.html' %} {% endblock content %}
